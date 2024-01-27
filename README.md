@@ -42,10 +42,10 @@ Open the provided AWS API Gateway URL to start using the authentication app.
   
    - User Login
 
-**Secure Authentication Flow**
+### Secure Authentication Flow
 
-POST /register: Register a new user.
+**1. POST /register :** Register a new user.
 
-POST /login: Authenticate and log in a user.
+**2. POST /login :** Authenticate and log in a user.
 
-POST /otp: Generate and validate OTP (One-Time Password).
+**3. POST /otp :** Generate and validate OTP (One-Time Password).
