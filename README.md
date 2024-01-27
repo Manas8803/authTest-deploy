@@ -15,8 +15,8 @@ Before you begin, ensure you have met the following requirements : -
 ### Clone the Repository :
 
 ```
-git clone https://github.com/yourusername/auth-app.git
-cd auth-app
+git clone https://github.com/Manas8803/authTest-deploy.git
+cd authTest-deploy
 ```
 
 ## Installation
