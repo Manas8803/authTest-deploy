@@ -3,19 +3,27 @@
 
 Welcome to Auth-App, a serverless authentication app using AWS Lambda and API Gateway.
 
+## Prerequisites
+ Before you begin, ensure you have met the following requirements should be installed on your machine : -
+ -  [Go](https://golang.org/doc/install) above version @1.18
+ -   [AWS CLI](https://aws.amazon.com/cli/) configured with necessary permissions.
+
 ## Quick Start
 
 ### Clone the Repository :
 ```
 git clone https://github.com/yourusername/auth-app.git
-
 cd auth-app
 ```
 ## Installation
 ```
 go mod download
 ```
-Deploy to AWS Lambda: 
+**Configure using** : 
+```
+aws configure
+```
+**Deploy to AWS Lambda :** 
 ```
 cd deploy
 cdk deploy
