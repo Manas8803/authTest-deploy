@@ -20,5 +20,5 @@ cdk.out
 /node_modules/
 .env
 README.md
-/env
+/app/env
 .DS_Store
