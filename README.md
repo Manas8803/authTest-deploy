@@ -48,7 +48,10 @@ Open the provided AWS API Gateway URL to start using the authentication app.
 
 - Go
 
+- Gorilla
+
 - AWS Lambda
+
 - AWS API Gateway
 
 ### Features
