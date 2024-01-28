@@ -17,6 +17,8 @@
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# Other files
 /node_modules/
 .env
 /app/env

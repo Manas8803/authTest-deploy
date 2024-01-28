@@ -48,7 +48,7 @@ Open the provided AWS API Gateway URL to start using the authentication app.
 
 - Go
 
-- Gorilla
+- Gorilla Mux
 
 - AWS Lambda
 
