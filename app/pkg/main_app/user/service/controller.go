@@ -5,7 +5,6 @@ import (
 	"app/pkg/lib/security"
 	"app/pkg/lib/util"
 	"app/pkg/lib/validation"
-	"sync"
 
 	"app/pkg/main_app/user/domain"
 	"app/pkg/main_app/user/repository/adapter"
@@ -72,20 +71,11 @@ func RegisterUserController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var wg sync.WaitGroup
-
-	// Your logic to send OTP by email
-
-	network.RespondWithJSON(w, http.StatusCreated, map[string]interface{}{"user": user}) // Send response immediately
-
-	wg.Add(1)
 	go func() {
-		defer wg.Done()
 		network.SendOtpByEmail(user.Email, otp)
 	}()
 
-	// Wait for the email sending goroutine to finish before exiting the function
-	wg.Wait()
+	network.RespondWithJSON(w, http.StatusCreated, map[string]interface{}{"user": user})
 }
 
 // ^ Login :

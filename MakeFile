@@ -1,0 +1,4 @@
+deploy:
+	GOOS=linux GOARCH=amd64 go build -o ./app/build/main ./app/cmd/main-app/main.go
+	zip -r ./deploy/main.zip ./app
+	cd deploy && cdk deploy --hotswap

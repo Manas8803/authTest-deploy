@@ -22,12 +22,10 @@ func SendOtpByEmail(email, otp string) {
 		"<h1>Your OTP for Verification is <strong>" + otp + "</strong></h1>" +
 		"</body></html>")
 
-	go func() {
-		err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message)
-		if err != nil {
-			log.Println("Error in sending OTP:", err)
-		}
-	}()
+	err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message)
+	if err != nil {
+		log.Println("Error in sending OTP:", err)
+	}
 
 	log.Println("Exited SMTP")
 }
