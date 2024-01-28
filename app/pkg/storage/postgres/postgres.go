@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"app/env"
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -15,7 +15,7 @@ const connectMsg string = "-----------------------------------------------------
 
 func Postgres() *sql.DB {
 
-	uri := env.SQLURI
+	uri := os.Getenv("SQLURI")
 
 	// Open a connection to the database
 	db, err := sql.Open("postgres", uri)

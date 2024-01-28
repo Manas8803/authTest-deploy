@@ -21,3 +21,4 @@ cdk.out
 .env
 /app/env
 .DS_Store
+/deploy/main.zip

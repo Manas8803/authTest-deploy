@@ -1,12 +1,14 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
+	"github.com/joho/godotenv"
 )
 
 type CdkWorkshopStackProps struct {
@@ -19,11 +21,17 @@ func LamdaStack(scope constructs.Construct, id string, props *CdkWorkshopStackPr
 		sprops = props.StackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
-
 	awslambda.NewFunction(stack, jsii.String("Lambda"), &awslambda.FunctionProps{
 		Code:    awslambda.Code_FromAsset(jsii.String("main.zip"), nil),
 		Runtime: awslambda.Runtime_GO_1_X(),
 		Handler: jsii.String("/app/build/main"),
+		Environment: &map[string]*string{
+			"SQLURI":         jsii.String(os.Getenv("SQLURI")),
+			"JWT_SECRET_KEY": jsii.String(os.Getenv("JWT_SECRET_KEY")),
+			"JWT_LIFETIME":   jsii.String(os.Getenv("JWT_LIFETIME")),
+			"EMAIL":          jsii.String(os.Getenv("EMAIL")),
+			"PASSWORD":       jsii.String(os.Getenv("PASSWORD")),
+		},
 	})
 
 	return stack
@@ -31,6 +39,10 @@ func LamdaStack(scope constructs.Construct, id string, props *CdkWorkshopStackPr
 
 func main() {
 	defer jsii.Close()
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Fatalln("Error loading .env file : ", err)
+	}
 
 	app := awscdk.NewApp(nil)
 

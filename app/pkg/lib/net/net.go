@@ -1,16 +1,16 @@
 package network
 
 import (
-	"app/env"
 	"encoding/json"
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 )
 
 func SendOtpByEmail(email, otp string) {
 	log.Println("Entered SMTP")
-	auth := smtp.PlainAuth("", env.EMAIL, env.PASSWORD, "smtp.gmail.com")
+	auth := smtp.PlainAuth("", os.Getenv("EMAIL"), os.Getenv("PASSWORD"), "smtp.gmail.com")
 
 	to := []string{email}
 
@@ -23,7 +23,7 @@ func SendOtpByEmail(email, otp string) {
 		"</body></html>")
 
 	go func() {
-		err := smtp.SendMail("smtp.gmail.com:587", auth, env.EMAIL, to, message)
+		err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message)
 		if err != nil {
 			log.Println("Error in sending OTP:", err)
 		}

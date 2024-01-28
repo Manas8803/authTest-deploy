@@ -1,15 +1,15 @@
 package security
 
 import (
-	"app/env"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte(env.JWT_SECRET_KEY)
+var jwtKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 // GenerateJWT generates a JSON Web Token (JWT) for the given email and username.
 //
@@ -22,7 +22,7 @@ var jwtKey = []byte(env.JWT_SECRET_KEY)
 // - err: an error object indicating any error that occurred during JWT generation.
 func GenerateJWT(email string, id int64) (string, bool) {
 	// Removed expirationTime variable.
-	expTime, expErr := strconv.ParseInt(string(env.JWT_LIFETIME), 10, 64) //! Added variable
+	expTime, expErr := strconv.ParseInt(string(os.Getenv("JWT_LIFETIME")), 10, 64) //! Added variable
 	if expErr != nil {
 		return "", false
 	}
