@@ -4,30 +4,33 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"net/smtp"
-	"os"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/lambda"
 )
 
 func SendOtpByEmail(email, otp string) {
-	log.Println("Entered SMTP")
-	auth := smtp.PlainAuth("", os.Getenv("EMAIL"), os.Getenv("PASSWORD"), "smtp.gmail.com")
-
-	to := []string{email}
-
-	message := []byte("To: " + email + "\r\n" +
-		"Subject: OTP for Verification\r\n" +
-		"MIME-Version: 1.0\r\n" +
-		"Content-Type: text/html; charset=\"utf-8\"\r\n\r\n" +
-		"<html><body>" +
-		"<h1>Your OTP for Verification is <strong>" + otp + "</strong></h1>" +
-		"</body></html>")
-
-	err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message)
+	//* Invoke the target Lambda function
+	sess := session.Must(session.NewSession())
+	client := lambda.New(sess)
+	payloadData := map[string]string{"email": email, "otp": otp}
+	payloadBytes, err := json.Marshal(payloadData)
 	if err != nil {
-		log.Println("Error in sending OTP:", err)
+		log.Println("Error marshaling payload:", err)
 	}
+	input := &lambda.InvokeInput{
+		FunctionName: aws.String("AuthTest-Stack1-SendEmail14C26199-BjmgAo7bktVO"),
+		Payload:      payloadBytes,
+	}
+	log.Println("Payload:", string(payloadBytes))
 
-	log.Println("Exited SMTP")
+	result, err := client.Invoke(input)
+	if err != nil {
+		log.Println("Error invoking Lambda function:", err)
+	} else {
+		log.Println("Lambda function invoked successfully:", result)
+	}
 }
 
 func RespondWithJSON(w http.ResponseWriter, status int, data interface{}) {

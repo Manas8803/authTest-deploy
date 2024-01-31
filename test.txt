@@ -1,0 +1,5 @@
+send email
+"body": "{\"email\":\"manasahavegeta@gmail.com\", \"otp\" : \"72821\"}",
+
+auth:
+"body": "{\"email\" : \"manasahavegeta+9102@gmail.com\", \"password\" : \"ExamplePwd0!!!\", \"firstname\":\"Manas\", \"lastname\":\"adasdas\", \"middlename\":\"abcd\"}",
