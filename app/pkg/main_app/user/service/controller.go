@@ -71,8 +71,11 @@ func RegisterUserController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	go func() {
+		network.SendOtpByEmail(user.Email, otp)
+	}()
+
 	network.RespondWithJSON(w, http.StatusCreated, map[string]interface{}{"user": user})
-	network.SendOtpByEmail(user.Email, otp)
 }
 
 // ^ Login :

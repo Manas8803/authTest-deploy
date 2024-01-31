@@ -3,5 +3,3 @@ go 1.21.3
 use ./app
 
 use ./deploy
-
-use ./email-service

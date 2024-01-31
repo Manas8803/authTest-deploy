@@ -1,4 +1,4 @@
-# Serverless Auth-App
+# Auth-App
 
 Welcome to Auth-App, a serverless authentication app using AWS Lambda and API Gateway.
 

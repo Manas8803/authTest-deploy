@@ -20,7 +20,7 @@ import (
 //	@description	This is a registration api for an application.
 //	@BasePath		/api/v1
 
-var gorillaAdp *gorillamux.GorillaMuxAdapter
+var gorillaLambda *gorillamux.GorillaMuxAdapter
 
 func init() {
 
@@ -36,12 +36,12 @@ func init() {
 		httpSwagger.DocExpansion("none"),
 		httpSwagger.DomID("swagger-ui"),
 	)).Methods(http.MethodGet)
-	gorillaAdp = gorillamux.New(router)
+	gorillaLambda = gorillamux.New(router)
 }
 
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	SwitchableAPIGatewayRequest_req := core.NewSwitchableAPIGatewayRequestV1(&req) //& Function, not a method.
-	SwitchableAPIGatewayResponse_res, err := gorillaAdp.ProxyWithContext(ctx, *SwitchableAPIGatewayRequest_req)
+	SwitchableAPIGatewayResponse_res, err := gorillaLambda.ProxyWithContext(ctx, *SwitchableAPIGatewayRequest_req)
 	if err != nil {
 		log.Println(err)
 	}
