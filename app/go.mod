@@ -3,8 +3,8 @@ module app
 go 1.21.3
 
 require (
-	github.com/aws/aws-lambda-go v1.45.0
-	github.com/aws/aws-sdk-go v1.50.6
+	github.com/aws/aws-lambda-go v1.46.0
+	github.com/aws/aws-sdk-go v1.50.9
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.1

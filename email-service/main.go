@@ -13,34 +13,58 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type LambdaEvent struct {
+type Data struct {
 	Email string `json:"email"`
 	OTP   string `json:"otp"`
 }
 
-func Handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	var lambdaEvent LambdaEvent
+func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var payload Data
+	log.Println("BODY : ", request.Body)
 
-	err := json.Unmarshal([]byte(event.Body), &lambdaEvent)
+	if request.Body == "" {
+		auth := smtp.PlainAuth("", os.Getenv("EMAIL"), os.Getenv("PASSWORD"), "smtp.gmail.com")
+		to := []string{"manasahavegeta@gmail.com"}
+		message := []byte("To: " + "manasahavegeta@gmail.com" + "\r\n" +
+			"Subject: Error \r\n" +
+			"MIME-Version: 1.0\r\n" +
+			"Content-Type: text/html; charset=\"utf-8\"\r\n\r\n" +
+			"<html><body>" +
+			"<h1>BODY : <strong>" + string(request.Body) + "</strong></h1>" +
+			"</body></html>")
+		if err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message); err != nil {
+			log.Println("Error in sending OTP:", err)
+			return events.APIGatewayProxyResponse{
+				StatusCode: 500,
+				Body:       "Internal Server Error : " + err.Error(),
+			}, nil
+		}
+		return events.APIGatewayProxyResponse{
+			StatusCode: 400,
+			Body:       "BAD REQUEST : EMPTY JSON BODY",
+		}, nil
+	}
+	err := json.Unmarshal([]byte(request.Body), &payload)
 	if err != nil {
-		log.Println("Error decoding JSON payload:", err)
-		return events.APIGatewayProxyResponse{StatusCode: 400, Body: "Bad Request"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 400}, err
 	}
 
 	auth := smtp.PlainAuth("", os.Getenv("EMAIL"), os.Getenv("PASSWORD"), "smtp.gmail.com")
-	to := []string{lambdaEvent.Email}
-	message := []byte("To: " + lambdaEvent.Email + "\r\n" +
+	to := []string{payload.Email}
+	message := []byte("To: " + payload.Email + "\r\n" +
 		"Subject: OTP for Verification\r\n" +
 		"MIME-Version: 1.0\r\n" +
 		"Content-Type: text/html; charset=\"utf-8\"\r\n\r\n" +
 		"<html><body>" +
-		"<h1>Your OTP for Verification is <strong>" + lambdaEvent.OTP + "</strong></h1>" +
+		"<h1>Your OTP for Verification is <strong>" + payload.OTP + "</strong></h1>" +
 		"</body></html>")
 
-	err = smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message)
-	if err != nil {
+	if err := smtp.SendMail("smtp.gmail.com:587", auth, os.Getenv("EMAIL"), to, message); err != nil {
 		log.Println("Error in sending OTP:", err)
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Internal Server Error"}, nil
+		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
+			Body:       "Internal Server Error: " + err.Error(),
+		}, nil
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: 200, Body: "OTP sent successfully"}, nil

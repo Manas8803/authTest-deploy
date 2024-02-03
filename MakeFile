@@ -1,7 +1,7 @@
 .PHONY: deploy
 
 deploy:
-    GOOS=linux GOARCH=amd64 go build -o ./app/build/main ./app/cmd/main-app/main.go
+    GOOS=linux GOARCH=amd64 go build -o ./app/build/main ./app/cmd/main-app/main.go   
     GOOS=linux GOARCH=amd64 go build -o ./email-service/build/main ./email-service/main.go
     zip -r ./deploy/main.zip ./app
     zip -r ./deploy/email-service.zip ./email-service

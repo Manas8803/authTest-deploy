@@ -4,26 +4,47 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 )
 
-func SendOtpByEmail(email, otp string) {
-	//* Invoke the target Lambda function
-	sess := session.Must(session.NewSession())
-	client := lambda.New(sess)
-	payloadData := map[string]string{"email": email, "otp": otp}
-	payloadBytes, err := json.Marshal(payloadData)
+type Data struct {
+	Email string `json:"email"`
+	OTP   string `json:"otp"`
+}
+type Payload_Body struct {
+	Body string `json:"body"`
+}
+
+func SendOtpByEmail(email string, otp string) {
+
+	sess, err := session.NewSession()
 	if err != nil {
-		log.Println("Error marshaling payload:", err)
+		log.Println("Error in creating session : ", err.Error())
+		return
 	}
+
+	client := lambda.New(sess)
+	data, err := json.Marshal(Data{Email: email, OTP: otp})
+	if err != nil {
+		log.Println("Error in marshalling data : ", err.Error())
+	}
+	body := Payload_Body{Body: string(data)}
+
+	payload, err := json.Marshal(body)
+	if err != nil {
+		log.Println("Error in marshalling payload : ", err.Error())
+	}
+	log.Println("Payload : ", string(payload))
+
 	input := &lambda.InvokeInput{
-		FunctionName: aws.String("AuthTest-Stack1-SendEmail14C26199-BjmgAo7bktVO"),
-		Payload:      payloadBytes,
+		FunctionName:   aws.String(os.Getenv("SEND_TO_EMAIL_ARN")),
+		Payload:        payload,
+		InvocationType: aws.String("Event"),
 	}
-	log.Println("Payload:", string(payloadBytes))
 
 	result, err := client.Invoke(input)
 	if err != nil {
