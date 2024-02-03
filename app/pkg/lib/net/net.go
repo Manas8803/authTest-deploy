@@ -32,13 +32,13 @@ func SendOtpByEmail(email string, otp string) {
 	if err != nil {
 		log.Println("Error in marshalling data : ", err.Error())
 	}
+
 	body := Payload_Body{Body: string(data)}
 
 	payload, err := json.Marshal(body)
 	if err != nil {
 		log.Println("Error in marshalling payload : ", err.Error())
 	}
-	log.Println("Payload : ", string(payload))
 
 	input := &lambda.InvokeInput{
 		FunctionName:   aws.String(os.Getenv("SEND_TO_EMAIL_ARN")),

@@ -40,7 +40,6 @@ func init() {
 }
 
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Println("Request BODY : ", req.Body)
 	SwitchableAPIGatewayRequest_req := core.NewSwitchableAPIGatewayRequestV1(&req) //& Function, not a method.
 	SwitchableAPIGatewayResponse_res, err := gorillaAdp.ProxyWithContext(ctx, *SwitchableAPIGatewayRequest_req)
 	if err != nil {
