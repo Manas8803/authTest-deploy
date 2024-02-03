@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"app/pkg/storage/postgres"
+	"auth-service/pkg/storage/postgres"
 )
 
 func ConnectDB() {

@@ -1,9 +1,9 @@
 package main_app
 
 import (
-	_ "app/pkg/main_app/docs"
-	"app/pkg/main_app/user/service"
-	"app/pkg/storage"
+	_ "auth-service/pkg/main_app/docs"
+	"auth-service/pkg/main_app/user/service"
+	"auth-service/pkg/storage"
 	"context"
 	"log"
 	"net/http"

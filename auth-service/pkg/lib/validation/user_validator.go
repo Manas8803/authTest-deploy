@@ -1,7 +1,7 @@
 package validation
 
 import (
-	"app/pkg/main_app/user/domain"
+	"auth-service/pkg/main_app/user/domain"
 	"errors"
 	"regexp"
 )

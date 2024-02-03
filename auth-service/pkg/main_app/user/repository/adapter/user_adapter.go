@@ -1,10 +1,10 @@
 package adapter
 
 import (
-	"app/pkg/main_app/user/domain"
-	db "app/pkg/main_app/user/repository"
-	helper "app/pkg/main_app/user/repository/helpers"
-	"app/pkg/storage/postgres"
+	"auth-service/pkg/main_app/user/domain"
+	db "auth-service/pkg/main_app/user/repository"
+	helper "auth-service/pkg/main_app/user/repository/helpers"
+	"auth-service/pkg/storage/postgres"
 	"context"
 )
 

@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"app/pkg/main_app/user/domain"
-	db "app/pkg/main_app/user/repository"
+	db "auth-service/pkg/main_app/user/repository"
+	"auth-service/pkg/main_app/user/domain"
 )
 
 func ToDomainUser(u *db.User) *domain.User {

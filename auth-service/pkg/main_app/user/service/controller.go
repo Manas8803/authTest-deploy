@@ -1,13 +1,13 @@
 package service
 
 import (
-	network "app/pkg/lib/net"
-	"app/pkg/lib/security"
-	"app/pkg/lib/util"
-	"app/pkg/lib/validation"
+	network "auth-service/pkg/lib/net"
+	"auth-service/pkg/lib/security"
+	"auth-service/pkg/lib/util"
+	"auth-service/pkg/lib/validation"
 
-	"app/pkg/main_app/user/domain"
-	"app/pkg/main_app/user/repository/adapter"
+	"auth-service/pkg/main_app/user/domain"
+	"auth-service/pkg/main_app/user/repository/adapter"
 
 	"context"
 	"encoding/json"
