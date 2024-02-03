@@ -26,7 +26,7 @@ func LamdaStack(scope constructs.Construct, id string, props *AuthTest) awscdk.S
 	auth_handler := awslambda.NewFunction(stack, jsii.String("Auth"), &awslambda.FunctionProps{
 		Code:    awslambda.Code_FromAsset(jsii.String("main.zip"), nil),
 		Runtime: awslambda.Runtime_GO_1_X(),
-		Handler: jsii.String("/app/build/main"),
+		Handler: jsii.String("/auth-service/build/main"),
 		Timeout: awscdk.Duration_Seconds(jsii.Number(10)),
 		Environment: &map[string]*string{
 			"SQLURI":            jsii.String(os.Getenv("SQLURI")),
