@@ -23,6 +23,17 @@ func LamdaStack(scope constructs.Construct, id string, props *AuthTest) awscdk.S
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
+	sendEmail_handler := awslambda.NewFunction(stack, jsii.String("SendEmail"), &awslambda.FunctionProps{
+		Code:    awslambda.Code_FromAsset(jsii.String("email-service.zip"), nil),
+		Runtime: awslambda.Runtime_GO_1_X(),
+		Handler: jsii.String("/email-service/build/main"),
+		Timeout: awscdk.Duration_Seconds(jsii.Number(10)),
+		Environment: &map[string]*string{
+			"EMAIL":    jsii.String(os.Getenv("EMAIL")),
+			"PASSWORD": jsii.String(os.Getenv("PASSWORD")),
+		},
+	})
+
 	auth_handler := awslambda.NewFunction(stack, jsii.String("Auth"), &awslambda.FunctionProps{
 		Code:    awslambda.Code_FromAsset(jsii.String("main.zip"), nil),
 		Runtime: awslambda.Runtime_GO_1_X(),
@@ -32,18 +43,7 @@ func LamdaStack(scope constructs.Construct, id string, props *AuthTest) awscdk.S
 			"SQLURI":            jsii.String(os.Getenv("SQLURI")),
 			"JWT_SECRET_KEY":    jsii.String(os.Getenv("JWT_SECRET_KEY")),
 			"JWT_LIFETIME":      jsii.String(os.Getenv("JWT_LIFETIME")),
-			"SEND_TO_EMAIL_ARN": jsii.String(os.Getenv("SEND_TO_EMAIL_ARN")),
-		},
-	})
-
-	awslambda.NewFunction(stack, jsii.String("SendEmail"), &awslambda.FunctionProps{
-		Code:    awslambda.Code_FromAsset(jsii.String("email-service.zip"), nil),
-		Runtime: awslambda.Runtime_GO_1_X(),
-		Handler: jsii.String("/email-service/build/main"),
-		Timeout: awscdk.Duration_Seconds(jsii.Number(10)),
-		Environment: &map[string]*string{
-			"EMAIL":    jsii.String(os.Getenv("EMAIL")),
-			"PASSWORD": jsii.String(os.Getenv("PASSWORD")),
+			"SEND_TO_EMAIL_ARN": jsii.String(*sendEmail_handler.FunctionArn()),
 		},
 	})
 
