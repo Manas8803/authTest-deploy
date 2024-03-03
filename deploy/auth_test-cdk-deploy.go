@@ -12,11 +12,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type AuthTest struct {
+type AuthTestProps struct {
 	awscdk.StackProps
 }
 
-func LamdaStack(scope constructs.Construct, id string, props *AuthTest) awscdk.Stack {
+func LamdaStack(scope constructs.Construct, id string, props *AuthTestProps) awscdk.Stack {
 	var sprops awscdk.StackProps
 	if props != nil {
 		sprops = props.StackProps
@@ -59,7 +59,7 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	LamdaStack(app, "AuthTest-Stack", &AuthTest{
+	LamdaStack(app, "AuthTest-Stack", &AuthTestProps{
 		awscdk.StackProps{
 			Env: env(),
 		},
