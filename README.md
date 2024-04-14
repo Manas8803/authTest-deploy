@@ -71,4 +71,4 @@ Open the provided AWS API Gateway URL to start using the authentication app.
 **3. POST /otp :** Generate and validate OTP (One-Time Password).
 
 **Email Communication:**
-This application enhances user experience by incorporating AWS Lambda functions for email communication. When a user registers or performs certain actions, Lambda functions are seamlessly invoked to send relevant emails, significantly speeding up the email sending process. These emails play a crucial role in keeping users informed about their authentication activities.
+This application n enhances user experience by incorporating AWS Lambda functions for email communication. When a user registers or performs certain actions, Lambda functions are seamlessly invoked to send relevant emails, significantly speeding up the email sending process. These emails play a crucial role in keeping users informed about their authentication activities.
