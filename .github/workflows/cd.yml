@@ -22,6 +22,7 @@ jobs:
         with:
           name: auth-service
           path: ./auth-service/bootstrap
+          
       - name: Upload Email Service Artifact
         uses: actions/upload-artifact@v3
         with:
