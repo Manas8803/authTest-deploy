@@ -3,8 +3,6 @@
 build:
 	GOOS=linux GOARCH=amd64 go build -o ./auth-service/build/main ./auth-service/cmd/main-app/main.go   
 	GOOS=linux GOARCH=amd64 go build -o ./email-service/build/main ./email-service/main.go
-	zip -r ./deploy/main.zip ./auth-service
-	zip -r ./deploy/email-service.zip ./email-service
 
 deploy:
 	cd deploy && cdk deploy
@@ -15,5 +13,3 @@ deploy-swap:
 clean:
 	rm -rf ./auth-service/build
 	rm -rf ./email-service/build
-	rm -f ./deploy/auth-service.zip
-	rm -f ./deploy/email-service.zip
