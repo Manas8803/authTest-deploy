@@ -17,11 +17,13 @@ jobs:
           go-version: "1.21.3"
       - name: Build
         run: make build
+
       - name: Upload Auth Service Build
         uses: actions/upload-artifact@v3
         with:
           name: auth-service
           path: ./auth-service/bootstrap
+          
       - name: Upload Email Service Build
         uses: actions/upload-artifact@v3
         with:

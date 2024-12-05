@@ -1,8 +1,8 @@
 .PHONY: build deploy clean
 
 build:
-	GOOS=linux GOARCH=amd64 go build -o ./auth-service/build/main ./auth-service/cmd/main-app/main.go   
-	GOOS=linux GOARCH=amd64 go build -o ./email-service/build/main ./email-service/main.go
+	GOOS=linux GOARCH=amd64 go build -o ./auth-service/bootstrap ./auth-service/cmd/main.go  
+	GOOS=linux GOARCH=amd64 go build -o ./email-service/bootstrap ./email-service/cmd/main.go  
 
 deploy:
 	cd deploy && cdk deploy
@@ -11,5 +11,5 @@ deploy-swap:
 	cd deploy && cdk deploy --hotswap
 
 clean:
-	rm -rf ./auth-service/build
-	rm -rf ./email-service/build
+	rm -rf ./auth-service/bootstrap
+	rm -rf ./email-service/bootstrap
